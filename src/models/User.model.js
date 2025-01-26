@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema(
     },
     cnic: {
       type: String,
-      unique: false, // Change it later to true
+      unique: true, // Change it later to true
       validate: {
         validator: function (v) {
           return /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/.test(v);
@@ -63,7 +63,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["user", "admin"],
-      default: ["user"],
+      default: "user",
     },
     imageUrl: {
       type: String,
