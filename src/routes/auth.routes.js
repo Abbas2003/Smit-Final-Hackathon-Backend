@@ -18,7 +18,7 @@ router.post("/login", async (req, res) => {
     if (error) return sendResponse(res, 400, null, true, error.message);
 
     const user = await User.findOne({ email: value.email }).lean();
-    console.log("Currnet user=>", user)
+    // console.log("Currnet user=>", user)
 
     if (!user) return sendResponse(res, 403, null, true, "User is not registered with this email.");
 
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) return sendResponse(res, 403, null, true, "Invalid Credentials");
     let token = jwt.sign(user, process.env.AUTH_SECRET)
 
-    console.log("token=> ", token)
+    // console.log("token=> ", token)
     sendResponse(res, 200, { user, token }, false, "User login Successfully")
 
   } catch (error) {
