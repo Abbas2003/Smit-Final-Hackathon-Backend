@@ -1,28 +1,20 @@
 import express from "express";
-import Student from "../models/Student.js";
 import sendResponse from "../helpers/sendResponse.js";
-import Joi from "joi";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
-import { newLoginSchema } from "../schemas/user.schema.js";
+import { loginSchema, userSchema } from "../schemas/user.schema.js";
 
 const router = express.Router();
 
-
-
-// const newLoginSchema = Joi.object({
-//   email: Joi.string().email().trim().lowercase().required(),
-//   password: Joi.string().min(8).required(),
-// });
 
 
 // User login route
 router.post("/login", async (req, res) => {
   try {
 
-    const { error, value } = newLoginSchema.validate(req.body);
+    const { error, value } = loginSchema.validate(req.body);
     if (error) return sendResponse(res, 400, null, true, error.message);
 
     const user = await User.findOne({ email: value.email }).lean();
@@ -67,6 +59,7 @@ router.post("/register", async (req, res) => {
   }
 
 });
+
 
 // Get all users route
 router.get("/all-users", async (req, res) => {

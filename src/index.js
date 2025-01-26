@@ -27,7 +27,6 @@ app.use(express.json());
 app.use(morgan("tiny"));
 console.log("MONGODB_URI", process.env.MONGO_URI);
 
-app.use("/api/v1/student", studentRoute);
 
 // Auth Routes
 app.use("/api/v1/auth", authRoute);
@@ -35,32 +34,10 @@ app.use("/api/v1/auth", authRoute);
 // Auth Routes
 app.use("/api/v1/user", userRoute);
 
-// Course Routes
-app.use("/api/v1/course", courseRoute);
-
-// Class Routes
-app.use("/api/v1/class", classRoute);
-
-// City Routes
-app.use("/api/v1/section", sectionRoute);
-
 // City Routes
 app.use("/api/v1/city", cityRoute);
 
-// Campus Routes
-app.use("/api/v1/campus", campusRoute);
 
-// Batch Routes
-app.use("/api/v1/batch", batchRoute);
-
-// Quiz Routes
-app.use("/api/v1/quiz", quizRoute);
-
-// Assignment Routes
-app.use("/api/v1/assignment", assignmentRoute);
-
-// User Quiz Routes
-app.use("/api/v1/userquiz", userquizRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

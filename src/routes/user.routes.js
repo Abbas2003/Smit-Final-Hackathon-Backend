@@ -8,8 +8,78 @@ import User from "../models/User.model.js";
 import { authorizationAdmin, authorizationUser } from "../middlewares/authorization.js";
 import { upload, uploadToCloudinary } from "../components/imageuploader.js";
 import Batch from "../models/Batch.model.js";
+import nodemailer from "nodemailer";
 
 const router = express.Router();
+
+
+
+router.get("/get-my-info", authorizationUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return sendResponse(res, 404, null, true, "User not found");
+    sendResponse(res, 200, user, false, "User fetched successfully");
+  } catch (error) {
+    console.error(error.message);
+    sendResponse(res, 500, null, true, "Internal server error");
+  }
+})
+
+router.post("/send-email", async (req, res) => {
+
+    try {
+      const { senderName, sender, receiver, subject, message } = req.body;
+      console.log("req body in backend send email", req.body)
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        auth: {
+          user: process.env.MY_EMAIL,
+          pass: process.env.GMAIL_PASS,
+        },
+      });
+      const sendEmail = async (
+        senderName,
+        sender,
+        receiver,
+        subject,
+        message
+      ) => {
+        try {
+          const info = await transporter.sendMail({
+            from: `${senderName} 👻" <${sender}>`,
+            to: receiver, // list of receivers
+            subject: subject, // Subject line
+            text: message, // plain text body
+            html: message, // html body
+          });
+          console.log("Message sent: %s", info.messageId);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      await sendEmail(
+        senderName,
+        sender,
+        receiver,
+        subject,
+        message
+      );
+      res.status(200).json({ error: false, message: "Email sent successfully" });
+    } catch (error) {
+      console.log(error);
+    }
+ 
+})
+
+
+
+
+
+
+
+
 
 // =======================New User Only====================================
 
@@ -215,31 +285,6 @@ router.post("/smit-registration", upload.single("imageUrl"), async (req, res) =>
 
 
 
-// router.post("/user-login", async (req, res) => {
-//   try {
-//     const { error, value } = userLoginSchema.validate(req.body);
-//     if (error) return sendResponse(res, 400, null, true, error.message);
-
-//     const user = await User.findOne({ email: value.email }).lean();
-//     console.log("Currnet user=>", user);
-
-//     if (!user) return sendResponse(res, 403, null, true, "User is not registered with this email.");
-
-//     const isPasswordValid = await bcrypt.compare(value.password, user.password);
-//     if (!isPasswordValid) return sendResponse(res, 403, null, true, "Invalid Credentials");
-//     let loginTime = Date.now();
-
-//     let token = jwt.sign(user, process.env.AUTH_SECRET);
-
-//     console.log("token=> ", token);
-//     sendResponse(res, 200, { user, token }, false, "User login Successfully");
-//   } catch (error) {
-//     console.error(error);
-//     sendResponse(res, 500, null, true, "Internal server error");
-//   }
-// });
-
-// ================================================================================
 
 
 router.get("/all-users", async (req, res) => {
@@ -249,7 +294,7 @@ router.get("/all-users", async (req, res) => {
   if (role) query.role = { $in: role };
   if (email) query.email = email;
   if (cnic) query.cnic = cnic;
-  
+
   try {
     const users = await User.find(query);
     // const users = await User.find().populate("city campus course batch section");
