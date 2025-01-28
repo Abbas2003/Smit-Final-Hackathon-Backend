@@ -1,4 +1,4 @@
-import loanValidationSchema from "../schemas/loan.schema";
+import loanValidationSchema from "../schemas/loan.schema.js";
 
 const validateLoan = (req, res, next) => {
   const { error } = loanValidationSchema.validate(req.body, { abortEarly: false });

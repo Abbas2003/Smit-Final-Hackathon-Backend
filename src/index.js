@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import authRoute from "./routes/auth.routes.js";
 import userRoute from "./routes/user.routes.js";
+import guarantorRoute from "./routes/guarantor.routes.js";
 
 
 dotenv.config();
@@ -17,12 +18,19 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
+// Default Route
+// app.use("/", (req, res) => {
+//   res.send("Welcome to the Microfinance System API");
+// });
 
 // Auth Routes
 app.use("/api/v1/auth", authRoute);
 
-// Auth Routes
+// User Routes
 app.use("/api/v1/user", userRoute);
+
+// Guarantor Routes
+app.use("/api/v1/guarantor", guarantorRoute);
 
 
 

@@ -1,4 +1,4 @@
-import appointmentValidationSchema from "../schemas/appointment.schema";
+import appointmentValidationSchema from "../schemas/appointment.schema.js";
 
 const validateAppointment = (req, res, next) => {
   const { error } = appointmentValidationSchema.validate(req.body, { abortEarly: false });

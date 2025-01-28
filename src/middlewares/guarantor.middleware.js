@@ -1,11 +1,12 @@
-import guarantorValidationSchema from "../schemas/guarantor.schema";
+import Joi from "joi";
+import guarantorValidationSchema from "../schemas/guarantor.schema.js";
 
-const validateGuarantor = (req, res, next) => {
-  const { error } = guarantorValidationSchema.validate(req.body, { abortEarly: false });
-  if (error) {
-    return res.status(400).json({ errors: error.details.map((err) => err.message) });
-  }
-  next();
+const validateGuarantor = (data) => {
+  const schema = Array.isArray(data)
+    ? Joi.array().items(guarantorValidationSchema)
+    : guarantorValidationSchema;
+
+  return schema.validate(data, { abortEarly: false });
 };
 
 export default validateGuarantor;
