@@ -22,4 +22,15 @@ export const userSchema = Joi.object({
   address: Joi.string().trim().allow(''), // Allow empty string for optional fields
   role: Joi.string().valid('user', 'admin').default('user'),
   imageUrl: Joi.string(),
+  city: Joi.string(),
+  loans: Joi.array()
+    .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/))
+    .messages({
+      "string.pattern.base": "Each loan ID must be a valid ObjectId",
+    }),
+  guarantors: Joi.array()
+    .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/))
+    .messages({
+      "string.pattern.base": "Each guarantor ID must be a valid ObjectId",
+    }),
 });

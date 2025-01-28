@@ -9,4 +9,5 @@ const guarantorSchema = new mongoose.Schema({
   relation: { type: String },
 }, { timestamps: true });
 
-module.exports = mongoose.model("Guarantor", guarantorSchema);
+const Guarantor = mongoose.model("Guarantor", guarantorSchema);
+export default Guarantor;
