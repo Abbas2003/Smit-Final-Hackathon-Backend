@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema(
     },
     salarySheet: {
       type: String,
-    }
+    },
     loans: [{ type: mongoose.Schema.Types.ObjectId, ref: "Loan" }],
     guarantors: [{ type: mongoose.Schema.Types.ObjectId, ref: "Guarantor" }],
   },
