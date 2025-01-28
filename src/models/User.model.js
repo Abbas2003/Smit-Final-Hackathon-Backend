@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       validate: {
         validator: function (v) {
-          return v != null && v.length >= 6; 
+          return v != null && v.length >= 6;
         },
         message: (props) => "Password is required and must be at least 8 characters long!",
       },
@@ -68,6 +68,11 @@ const userSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
     },
+    salarySheet: {
+      type: String,
+    }
+    loans: [{ type: mongoose.Schema.Types.ObjectId, ref: "Loan" }],
+    guarantors: [{ type: mongoose.Schema.Types.ObjectId, ref: "Guarantor" }],
   },
   {
     timestamps: true,
