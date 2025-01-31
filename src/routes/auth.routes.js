@@ -88,22 +88,7 @@ router.get("/user/:id", async (req, res) => {
   }
 })
 
-// Update user route
-router.put("/user/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    let user = await User.findById(id);
 
-    if (!user) return sendResponse(res, 404, null, true, "User not found")
-
-    user = await User.findByIdAndUpdate(id, req.body, { new: true });
-
-    sendResponse(res, 200, user, false, "User updated successfully");
-  } catch (error) {
-    console.error(error.message);
-    sendResponse(res, 500, null, true, "Internal server error");
-  }
-})
 
 // Forgot password route (#Not applicable for now!)
 router.post('/forgot-password', async (req, res) => {

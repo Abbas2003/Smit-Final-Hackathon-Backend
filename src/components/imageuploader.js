@@ -26,11 +26,13 @@ const storage = new CloudinaryStorage({
 });
 
 export const upload = multer({ storage: storage });
+// export const upload = multer({ dest: "uploads/" });
+
 
 // Route handler for file upload
 export const uploadToCloudinary = (file) => {
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(file.path, { folder: "user_profiles" }, (error, result) => {
+    cloudinary.uploader.upload(file.path, { folder: "user-statements" }, (error, result) => {
       if (error) {
         reject(new Error("Error! uploading to Cloudinary"));
       } else {
