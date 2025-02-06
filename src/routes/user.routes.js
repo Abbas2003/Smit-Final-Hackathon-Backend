@@ -76,29 +76,31 @@ router.put("/update-user/:id", upload.fields([{ name: "bankStatement" }, { name:
 
     let updateData = { ...req.body };
 
+    console.log("bankStatement:", req?.files?.bankStatement);
+    console.log("salarySheet:", req?.files?.salarySheet);
+
     // Handle file uploads
     if (req.files?.bankStatement) {
       const bankStatementUpload = await uploadToCloudinary(req.files.bankStatement[0]);
-      console.log("bankStatementUpload", bankStatementUpload);
-
+      console.log("bankStatementUpload:", bankStatementUpload);
       updateData.bankStatement = bankStatementUpload.secure_url;
-      console.log("bankStatementUpload", updateData.bankStatement);
     }
     if (req.files?.salarySheet) {
       const salarySheetUpload = await uploadToCloudinary(req.files.salarySheet[0]);
-      console.log("salarySheetUpload", salarySheetUpload);
-      
+      console.log("salarySheetUpload:", salarySheetUpload);
       updateData.salarySheet = salarySheetUpload.secure_url;
-      console.log("salarySheetUpload", updateData.bankStatement);
     }
 
+    // Update user profile in DB
     user = await User.findByIdAndUpdate(id, updateData, { new: true });
+
     sendResponse(res, 200, user, false, "User updated successfully");
   } catch (error) {
     console.error(error.message);
     sendResponse(res, 500, null, true, "Internal server error");
   }
 });
+
 
 
 
