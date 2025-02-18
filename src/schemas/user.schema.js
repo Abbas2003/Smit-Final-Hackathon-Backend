@@ -23,6 +23,7 @@ export const userSchema = Joi.object({
   role: Joi.string().valid('user', 'admin').default('user'),
   imageUrl: Joi.string(),
   city: Joi.string(),
+  isFirstLogin: Joi.boolean().default(true),
   loans: Joi.array()
     .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/))
     .messages({

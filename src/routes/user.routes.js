@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import User from "../models/User.model.js";
 import sendResponse from "../helpers/sendResponse.js";
@@ -99,6 +100,32 @@ router.put("/update-user/:id", upload.fields([{ name: "bankStatement" }, { name:
     console.error(error.message);
     sendResponse(res, 500, null, true, "Internal server error");
   }
+});
+
+// Change password route
+router.put("/change-password/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    let user = await User.findById(id);
+    if (!user) return sendResponse(res, 404, null, true, "User not found");
+
+    const { newPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(id, {
+      password: hashedPassword,
+      isFirstLogin: false,
+    });
+    sendResponse(res, 203, null, false, "Password updated successfully");
+  } catch (error) {
+    console.error(error.message);
+    sendResponse(res, 500, null, true, error.message);
+  }
+
 });
 
 

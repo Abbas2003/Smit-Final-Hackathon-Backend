@@ -7,7 +7,7 @@ export async function authorizationUser(req, res, next) {
   try {
     const bearerToken = req?.headers?.authorization;
     const token = bearerToken?.split(" ")[1];
-    console.log("token=>", token);
+    // console.log("token=>", token);
     if (!token) return sendResponse(res, 403, null, true, "Token not provided");
     const decoded = jwt.verify(token, process.env.AUTH_SECRET);   
     if (decoded) {
@@ -16,7 +16,7 @@ export async function authorizationUser(req, res, next) {
         return sendResponse(res, 403, null, true, "User not found");
       }
       
-      console.log("decoded:", decoded)
+      // console.log("decoded:", decoded)
 
       req.user = decoded;
       next();

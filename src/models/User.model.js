@@ -71,6 +71,10 @@ const userSchema = new mongoose.Schema(
     salarySheet: {
       type: String,
     },
+    isFirstLogin: {
+      type: Boolean,
+      default: true,
+    },
     loans: [{ type: mongoose.Schema.Types.ObjectId, ref: "Loan" }],
     guarantors: [{ type: mongoose.Schema.Types.ObjectId, ref: "Guarantor" }],
   },
