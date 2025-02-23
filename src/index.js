@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import authRoute from "./routes/auth.routes.js";
 import userRoute from "./routes/user.routes.js";
+import loanRoute from "./routes/loan.routes.js";
 import guarantorRoute from "./routes/guarantor.routes.js";
 
 
@@ -31,6 +32,9 @@ app.use("/api/v1/user", userRoute);
 
 // Guarantor Routes
 app.use("/api/v1/guarantor", guarantorRoute);
+
+// Loan Routes
+app.use("/api/v1/loan", loanRoute);
 
 
 

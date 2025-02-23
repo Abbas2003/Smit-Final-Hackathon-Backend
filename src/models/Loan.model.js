@@ -8,7 +8,7 @@ const loanSchema = new mongoose.Schema({
   loanPeriod: { type: Number, required: true },
   initialDeposit: { type: Number },
   status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
-  appointment: { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
+  // appointment: { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
 }, { timestamps: true });
 
 const Loan = mongoose.model("Loan", loanSchema);

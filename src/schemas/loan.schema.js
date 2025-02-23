@@ -34,13 +34,12 @@ const loanValidationSchema = Joi.object({
     .messages({
       "any.only": "Status must be 'pending', 'approved', or 'rejected'",
     }),
-  appointment: Joi.string()
-    .regex(/^[0-9a-fA-F]{24}$/)
-    .allow(null)
-    .messages({
-      "string.pattern.base": "Appointment ID must be a valid MongoDB ObjectId",
-    }),
+  // appointment: Joi.string()
+  //   .regex(/^[0-9a-fA-F]{24}$/)
+  //   .allow(null)
+  //   .messages({
+  //     "string.pattern.base": "Appointment ID must be a valid MongoDB ObjectId",
+  //   }),
 });
 
 export default loanValidationSchema;
-s
