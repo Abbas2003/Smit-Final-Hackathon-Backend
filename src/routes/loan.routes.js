@@ -49,7 +49,15 @@ router.get("/get-user-loans", authorizationUser, async (req, res) => {
 
 router.get("/get-all-loans", authorizationAdmin, async (req, res) => {
     try {
-        const loans = await Loan.find().populate('userId', 'fullName email address mobileNo cnic salarySheet imageUrl guarantors');
+        const loans = await Loan.find()
+            .populate({
+                path: 'userId',
+                select: 'fullName email address mobileNo cnic salarySheet imageUrl guarantors',
+                populate: {
+                    path: 'guarantors',
+                    select: 'name email location relation cnic'
+                }
+            });
         console.log("loans=>", loans);
         return sendResponse(res, 200, loans, false, "All loans fetched successfully");
     } catch (error) {
