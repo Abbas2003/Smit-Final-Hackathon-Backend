@@ -36,9 +36,7 @@ router.get("/get-user-loans", authorizationUser, async (req, res) => {
         const loans = await Loan.find({ userId: req.user._id })
             .populate('userId', 'fullName email')
 
-        console.log("loans=>", loans);
-
-
+        // console.log("loans=>", loans);
         return sendResponse(res, 200, loans, false, "Loans fetched successfully");
     } catch (error) {
         console.error("Error fetching loans:", error.message);
@@ -58,7 +56,7 @@ router.get("/get-all-loans", authorizationAdmin, async (req, res) => {
                     select: 'name email location relation cnic'
                 }
             });
-        console.log("loans=>", loans);
+        // console.log("loans=>", loans);
         return sendResponse(res, 200, loans, false, "All loans fetched successfully");
     } catch (error) {
         console.error("Error fetching loans:", error.message);
